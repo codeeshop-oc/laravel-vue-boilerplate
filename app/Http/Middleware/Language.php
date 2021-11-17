@@ -2,36 +2,38 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use Auth;
 use App;
+use Closure;
 use Locale;
 use Request;
 
-class Language
-{
+class Language {
 
-    /**
-     * The availables languages.
-     *
-     * @array $languages
-     */
-    protected $languages = ['es','en','pt'];
+	/**
+	 * The availables languages.
+	 *
+	 * @array $languages
+	 */
+	protected $languages = ['es', 'en', 'pt'];
 
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
-    public function handle($request, Closure $next)
-    {
-        $locale = Locale::acceptFromHttp(Request::server('HTTP_ACCEPT_LANGUAGE'));
-        $language = substr($locale, 0, 2) == 'pt' ? 'pt' : 'en';
+	/**
+	 * Handle an incoming request.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \Closure  $next
+	 * @return mixed
+	 */
+	public function handle($request, Closure $next) {
+		if (env('APP_DEBUG')) {
+			$locale = 'en';
+		} else {
+			$locale = Locale::acceptFromHttp(Request::server('HTTP_ACCEPT_LANGUAGE'));
+		}
 
-        App::setLocale($language);
+		$language = substr($locale, 0, 2) == 'pt' ? 'pt' : 'en';
 
-        return $next($request);
-    }
+		App::setLocale($language);
+
+		return $next($request);
+	}
 }
