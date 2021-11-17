@@ -9,13 +9,13 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::group([
-    'middleware' => 'guest',
+	'middleware' => 'guest',
 ], function () {
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+	Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+	Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 });
 
 // It's necessary for the reset password e-mail
